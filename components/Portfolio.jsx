@@ -4,6 +4,10 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AriaMock from './AriaMock';
+import ParceirosMock from './ParceirosMock';
+import SqlMock from './SqlMock';
+import CrmMock from './CrmMock';
+import CredMock from './CredMock';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,11 +21,24 @@ const PROJETOS = [
     href: 'https://github.com/maemura01/aria-console',
     arte: <AriaMock />,
   },
-  { id: 'funil', titulo: 'Funil de leads + SQL', stack: 'PostgreSQL · CTEs · Metabase', cor: '#1b3fd8', texto: '#fff' },
-  { id: 'cadencia', titulo: 'Cadência de WhatsApp', stack: 'Workflow · Regras por etapa', cor: '#f4e72b', texto: '#000' },
-  { id: 'resumo', titulo: 'Resumo da direção', stack: 'Cron · Cartão em imagem', cor: '#ff4fa3', texto: '#000' },
-  { id: 'scraper', titulo: 'Scraper de CRM', stack: 'Playwright · Python', cor: '#1fa85a', texto: '#fff' },
-  { id: 'credenciais', titulo: 'Credenciais seguras', stack: 'ECIES · WebCrypto · Next.js', cor: '#000', texto: '#fff', href: 'https://github.com/maemura01/secure-credential-intake' },
+  { id: 'parceiros', titulo: 'Painel de parceiros e gerentes', stack: 'SQL · Vercel · Cron · WhatsApp', arte: <ParceirosMock /> },
+  { id: 'sql', titulo: 'Funil de leads + SQL', stack: 'PostgreSQL · CTEs · Window functions', arte: <SqlMock /> },
+  {
+    id: 'scraper',
+    titulo: 'Scraper de CRM',
+    stack: 'Python · Playwright · FastAPI',
+    href: 'https://github.com/maemura01/crm-proposal-scraper',
+    arte: <CrmMock />,
+    wide: true,
+  },
+  {
+    id: 'credenciais',
+    titulo: 'Credenciais cifradas no navegador',
+    stack: 'ECIES · WebCrypto · Next.js · Supabase',
+    href: 'https://github.com/maemura01/secure-credential-intake',
+    arte: <CredMock />,
+    wide: true,
+  },
 ];
 
 function IconGithub() {
@@ -102,9 +119,9 @@ export default function Portfolio() {
             </>
           );
           return p.href ? (
-            <a className="tile" key={p.id} href={p.href} target="_blank" rel="noopener noreferrer">{conteudo}</a>
+            <a className={`tile${p.wide ? ' wide' : ''}`} key={p.id} href={p.href} target="_blank" rel="noopener noreferrer">{conteudo}</a>
           ) : (
-            <div className="tile" key={p.id}>{conteudo}</div>
+            <div className={`tile${p.wide ? ' wide' : ''}`} key={p.id}>{conteudo}</div>
           );
         })}
       </main>
