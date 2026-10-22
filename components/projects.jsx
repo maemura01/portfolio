@@ -15,22 +15,22 @@ export const PROJETOS = [
   {
     id: 'aria',
     titulo: 'Aria Console',
-    resumo: 'Uma agenda onde a IA marca as reuniões e o time só precisa ajustar.',
+    resumo: 'A IA agenda as reuniões e o time comercial acompanha, entra no horário e registra o resultado.',
     arte: AriaMock,
     design: { w: 480, h: 600 },
     href: `${GITHUB}/aria-console`,
     interativo: true,
     cor: '#ff5a5f',
     problema:
-      'Uma IA de atendimento conversa com os leads e marca reuniões o dia inteiro. O time humano precisava enxergar tudo isso num lugar só, mudar horários quando fosse preciso e registrar quem compareceu, sem criar conflito de agenda e sem que cada pessoa visse o que não é dela.',
+      'Uma IA que atua como SDR conversa com os leads e agenda reuniões para o time comercial participar e fechar negócio. O time precisava de um lugar só para controlar esses agendamentos: ver os dados de cada cliente, pegar o link da reunião gerado pela IA e entrar na hora certa, marcar se o cliente compareceu e deixar anotações, sem conflito de agenda e sem ver o que não é seu.',
     camadas: [
-      ['Interface', ['React', 'Vite', 'Tailwind'], 'Uma agenda em React onde o time arrasta a reunião para outro horário e o sistema barra o que quebra a regra.'],
-      ['Back-end (BFF)', ['Funções serverless', 'Endpoint para a IA'], 'Uma camada que fica entre a tela e o resto: uma parte serve a interface e outra é o endpoint que a IA chama para marcar a reunião por score.'],
+      ['Interface', ['React', 'Vite', 'Tailwind'], 'Uma agenda em React onde o time arrasta a reunião para outro horário e abre o card do cliente: dados, link da reunião, comparecimento e anotações.'],
+      ['Back-end (BFF)', ['Funções serverless', 'Endpoint para a IA'], 'Uma camada que fica entre a tela e o resto: uma parte serve a interface e outra é o endpoint que a IA chama para agendar a reunião, por score, já com o link para o time entrar.'],
       ['Banco de dados', ['PostgreSQL', 'Supabase Auth', 'RLS'], 'Login e regras de acesso direto no banco, para cada perfil ver só o que tem permissão.'],
       ['Integração', ['Google Calendar', 'OAuth'], 'A reunião aparece na agenda real de cada atendente, não só dentro do painel.'],
     ],
     resolve:
-      'Hoje a IA marca sozinha por um endpoint seguro e a agenda do time se atualiza na hora. Quem opera ajusta os horários arrastando, e as regras (individual de manhã, coletiva à tarde) ficam garantidas pelo próprio sistema.',
+      'Cada agendamento vira um card com tudo dentro: informações do cliente, o link da reunião gerado pela IA, o controle de comparecimento e as anotações. A IA marca sozinha por um endpoint seguro, a agenda do time se atualiza na hora e as regras (individual de manhã, coletiva à tarde) ficam garantidas pelo próprio sistema.',
   },
   {
     id: 'parceiros',

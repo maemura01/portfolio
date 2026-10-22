@@ -424,3 +424,41 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 901px) { .md-stage { position: sticky; top: 88px; } }
 .hero, .sobre, .stack { padding-left: 40px; padding-right: 40px; }
 @media (max-width: 560px) { .hero, .sobre, .stack { padding-left: 20px; padding-right: 20px; } }
+
+/* ---------- Card do cliente dentro da demo do Aria ---------- */
+.ad { position: relative; overflow: hidden; }
+.ad-kpis { grid-template-columns: repeat(5, 1fr); }
+.ad-chip.sel { outline: 2px solid #191918; outline-offset: 1px; }
+.ad-st { position: absolute; top: 3px; right: 5px; width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; background: #fff; }
+.ad-st.ok { color: #1f7a3d; }
+.ad-st.no { color: #c2243f; }
+
+.ad-card { position: absolute; top: 0; right: 0; bottom: 0; width: min(380px, 100%); background: #fffef2; border-left: 1px solid #191918; padding: 18px 20px; overflow: auto; z-index: 20; box-shadow: -12px 0 24px -16px rgba(0, 0, 0, .35); }
+.adc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.adc-head .mono { color: #6b6b66; }
+.adc-head h4 { font-size: 22px; font-weight: 500; line-height: 1.15; letter-spacing: -0.03em; margin: 4px 0 2px; }
+.adc-head p { font-size: 13px; color: #6b6b66; }
+.adc-x { border: 1px solid #191918; background: transparent; border-radius: 2px; width: 30px; height: 30px; cursor: pointer; font-size: 13px; color: #191918; flex: none; }
+.adc-x:hover { background: #fcaa2d; border-color: #fcaa2d; }
+.adc-dados { border-top: 1px solid #e3e1d2; }
+.adc-dados div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid #e3e1d2; font-size: 13px; }
+.adc-dados dt { color: #6b6b66; }
+.adc-dados dd { font-weight: 500; text-align: right; overflow-wrap: anywhere; }
+.adc-bloco { margin-top: 16px; }
+.adc-bloco .mono { display: block; color: #6b6b66; margin-bottom: 6px; }
+.adc-link { display: flex; align-items: center; gap: 8px; }
+.adc-link code { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 12px; background: #edece0; padding: 9px 10px; border-radius: 2px; overflow-wrap: anywhere; }
+.adc-link .btn { padding: 9px 14px; cursor: pointer; border: 0; flex: none; }
+.adc-seg { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid #191918; border-radius: 2px; overflow: hidden; }
+.adc-seg button { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .03em; text-transform: uppercase; padding: 9px 4px; border: 0; border-right: 1px solid #191918; background: transparent; color: #191918; cursor: pointer; }
+.adc-seg button:last-child { border-right: 0; }
+.adc-seg button.on { background: #191918; color: #fffef2; }
+.adc-seg button.on.ok { background: #1f7a3d; }
+.adc-seg button.on.no { background: #c2243f; }
+.adc-bloco textarea { width: 100%; resize: vertical; font: inherit; font-size: 13px; line-height: 1.4; padding: 9px 10px; border: 1px solid #191918; border-radius: 2px; background: #fff; color: #191918; letter-spacing: 0; }
+@media (max-width: 560px) {
+  .ad-kpis { grid-template-columns: repeat(2, 1fr); }
+  .ad-kpis div:nth-child(2) { border-right: 0; }
+  .ad-kpis div:nth-child(5) { grid-column: span 2; border-right: 0; }
+  .ad-card { width: 100%; }
+}
