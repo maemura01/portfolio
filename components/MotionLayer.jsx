@@ -45,6 +45,17 @@ export default function MotionLayer() {
 
       // ---------- Faixa de tecnologias: reage à velocidade da rolagem ----------
       const faixa = gsap.to('.marquee-track', { xPercent: -50, duration: 34, ease: 'none', repeat: -1 });
+      // Pipeline da stack: gira sem parar, acelera com a rolagem e pausa com o mouse em cima.
+      const giro = gsap.to('.pipe-track', { xPercent: -50, duration: 48, ease: 'none', repeat: -1 });
+      let pausa = false;
+      let pf = 1;
+      const vista = document.querySelector('.pipe-view');
+      const parar = () => { pausa = true; };
+      const seguir = () => { pausa = false; };
+      vista?.addEventListener('pointerenter', parar);
+      vista?.addEventListener('pointerleave', seguir);
+      limpar.push(() => { vista?.removeEventListener('pointerenter', parar); vista?.removeEventListener('pointerleave', seguir); });
+
       let yAnt = window.scrollY;
       let dir = 1;
       let ts = 1;
@@ -56,6 +67,8 @@ export default function MotionLayer() {
         const alvo = dir * (1 + Math.min(Math.abs(v) / 280, 7));
         ts += (alvo - ts) * 0.08;
         faixa.timeScale(ts);
+        pf += ((pausa ? 0 : 1) - pf) * 0.1;
+        giro.timeScale(ts * 0.7 * pf);
         gsap.set('.marquee-track', { skewX: gsap.utils.clamp(-7, 7, -v / 260) });
       };
       gsap.ticker.add(veloc);

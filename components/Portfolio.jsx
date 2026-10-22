@@ -107,22 +107,8 @@ export default function Portfolio() {
           lote.forEach((el) => gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.09 })),
       });
 
-      // Pipeline da stack: a linha se desenha, as etapas acendem e um pulso percorre o caminho.
-      gsap.set('.pipe-line .fill', { scaleX: 0, transformOrigin: 'left' });
-      gsap.set('.pnode', { autoAlpha: 0, y: 22 });
-      gsap.set('.pulse', { autoAlpha: 0 });
-      ScrollTrigger.create({
-        trigger: '.pipe',
-        start: 'top 70%',
-        once: true,
-        onEnter: () => {
-          const tl = gsap.timeline();
-          tl.to('.pipe-line .fill', { scaleX: 1, duration: 1.6, ease: 'power2.inOut' }, 0);
-          tl.to('.pnode', { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.35 }, 0.2);
-          tl.set('.pulse', { autoAlpha: 1 }, 1.8);
-          tl.fromTo('.pulse', { left: '0%' }, { left: 'calc(100% - 12px)', duration: 3.2, ease: 'none', repeat: -1, repeatDelay: 0.8 }, 1.8);
-        },
-      });
+      // Pipeline da stack: entra com fade; o giro contínuo fica por conta da camada de movimento.
+      gsap.from('.pipe-view', { autoAlpha: 0, y: 24, duration: 0.9, ease: 'power2.out', scrollTrigger: { trigger: '.pipe', start: 'top 80%', once: true } });
     });
 
     return () => mm.revert();
@@ -242,19 +228,22 @@ export default function Portfolio() {
             <h2>Do banco de dados à interface.</h2>
             <p>O mesmo caminho em todos os projetos: o dado nasce no banco, passa por um back-end, chega à tela e vira automação.</p>
           </div>
-          <div className="pipe-row">
-            <div className="pipe-line" aria-hidden="true"><i className="fill" /><i className="pulse" /></div>
-            {STACK.map((e, i) => (
-              <div className="pnode" key={e.titulo}>
-                <span className="mono pn-i">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="pn-t">{e.titulo}</h3>
-                <p>{e.texto}</p>
-                <span className="mono pn-u">Usado em</span>
-                <div className="tags">
-                  {e.usado.map((u) => <span className="pill" key={u}>{u}</span>)}
-                </div>
-              </div>
-            ))}
+          <div className="pipe-view">
+            <div className="pipe-track">
+              {[0, 1].map((copia) =>
+                STACK.map((e, i) => (
+                  <div className="pnode" key={`${copia}-${e.titulo}`} {...(copia ? { 'aria-hidden': 'true', 'data-dup': '' } : {})}>
+                    <span className="mono pn-i">{String(i + 1).padStart(2, '0')}</span>
+                    <h3 className="pn-t">{e.titulo}</h3>
+                    <p>{e.texto}</p>
+                    <span className="mono pn-u">Usado em</span>
+                    <div className="tags">
+                      {e.usado.map((u) => <span className="pill" key={u}>{u}</span>)}
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </section>
       </main>

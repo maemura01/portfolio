@@ -539,3 +539,47 @@ button.btn-amber { border: 0; cursor: pointer; }
 .ct-val { font-size: 15px; overflow-wrap: normal; white-space: nowrap; }
 .sobre-h .foto { max-width: 240px; }
 @media (max-width: 560px) { .sobre-h .foto { max-width: 200px; } }
+
+/* ---------- Pipeline girando (carrossel contínuo) ---------- */
+.pipe-view { margin: 52px -40px 0; padding-top: 40px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.pipe-track { display: flex; width: max-content; will-change: transform; }
+.pnode { flex: 0 0 340px; margin-right: 40px; position: relative; }
+.pnode::before { display: block; top: -37px; left: 0; }
+.pnode::after { content: ""; position: absolute; top: -30px; left: 16px; width: calc(100% + 40px - 16px); height: 2px; background: var(--amber); }
+@keyframes ponto { 50% { box-shadow: 0 0 0 7px rgba(252, 170, 45, .18); } }
+.pnode::before { animation: ponto 2.6s ease-in-out infinite; }
+@media (max-width: 900px) {
+  .pipe-view { margin-left: -20px; margin-right: -20px; margin-top: 36px; }
+  .pnode { flex-basis: 290px; margin-right: 28px; }
+  .pnode::after { width: calc(100% + 28px - 16px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pipe-view { -webkit-mask-image: none; mask-image: none; margin: 36px 0 0; padding-top: 0; }
+  .pipe-track { flex-wrap: wrap; width: auto; gap: 36px 24px; }
+  .pnode { flex: 1 1 240px; margin: 0; }
+  .pnode::before, .pnode::after, .pnode[data-dup] { display: none; }
+}
+
+/* ---------- Botões com vida ---------- */
+.nav .btn-amber, .hero-btns .btn-amber { position: relative; overflow: hidden; }
+.nav .btn-amber::after, .hero-btns .btn-amber::after { content: ""; position: absolute; top: 0; left: 0; width: 45%; height: 100%; pointer-events: none; background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .65), transparent); transform: translateX(-140%) skewX(-18deg); animation: brilho 3.8s ease-in-out infinite; }
+@keyframes brilho { 0%, 55% { transform: translateX(-140%) skewX(-18deg); } 100% { transform: translateX(340%) skewX(-18deg); } }
+.nav .btn-amber { animation: anel 2.6s ease-out infinite; }
+@keyframes anel { 0% { box-shadow: 0 0 0 0 rgba(252, 170, 45, .55); } 70%, 100% { box-shadow: 0 0 0 12px rgba(252, 170, 45, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .nav .btn-amber, .nav .btn-amber::after, .hero-btns .btn-amber::after { animation: none; }
+}
+
+/* ---------- Nome com degradê que muda de cor ---------- */
+.brand {
+  background: linear-gradient(90deg, #fffef2, #fcaa2d, #ff5a5f, #ff4fa3, #6c8cff, #fffef2);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: fluxo 9s linear infinite;
+}
+.brand i { background: linear-gradient(90deg, #fffef2, #fcaa2d, #ff5a5f, #ff4fa3, #6c8cff, #fffef2); background-size: 300% 100%; animation: fluxo 9s linear infinite; }
+@keyframes fluxo { to { background-position: -300% 0; } }
+@media (prefers-reduced-motion: reduce) { .brand, .brand i { animation: none; } }
