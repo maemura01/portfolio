@@ -19,9 +19,10 @@ const mono = JetBrains_Mono({
 export const viewport = { themeColor: "#121211", colorScheme: "dark" };
 
 export const metadata = {
-  title: 'Ricardo Maemura — Desenvolvedor Full Stack',
+  icons: { icon: "/favicon.svg" },
+  title: 'Ricardo Maemura — Analista de Dados Pleno · Full Stack',
   description:
-    'Desenvolvedor full stack com base em dados: SQL, Next.js, Supabase e automação. Portfólio com demos ao vivo.',
+    'Analista de Dados Pleno e Full Stack: SQL, Next.js, Supabase e automação. Portfólio com demos interativas.',
 };
 
 export default function RootLayout({ children }) {
