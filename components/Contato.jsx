@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 
 const ITENS = [
   { id: 'wa', rotulo: 'WhatsApp', valor: '+55 (16) 99194-1178', href: 'https://wa.me/5516991941178', externo: true, dica: 'Resposta mais rápida' },
@@ -16,7 +17,7 @@ export default function Contato({ onClose }) {
   const [copiado, setCopiado] = useState(null);
 
   useEffect(() => {
-    const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduzido = !movimentoLigado();
     if (!reduzido) {
       gsap.fromTo(painel.current, { autoAlpha: 0, y: -12, clipPath: 'inset(0 0 100% 0)' }, { autoAlpha: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 0.45, ease: 'power3.out' });
       gsap.from('.ct-item', { autoAlpha: 0, x: 14, duration: 0.45, ease: 'power2.out', stagger: 0.06, delay: 0.12 });

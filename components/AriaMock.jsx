@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -51,7 +52,7 @@ export default function AriaMock() {
     const mm = gsap.matchMedia();
 
     // Sem animação: mostra o estado final, parado.
-    mm.add('(prefers-reduced-motion: reduce)', () => {
+    if (!movimentoLigado()) mm.add('all', () => {
       pintaKpis(1);
       gsap.set(chips, { scale: 1, opacity: 1 });
       if (arrastado && destino) {
@@ -61,7 +62,7 @@ export default function AriaMock() {
       }
     });
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       const contador = { p: 0 };
       const tl = gsap.timeline({ repeat: -1, paused: true });
 

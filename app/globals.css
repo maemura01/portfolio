@@ -24,7 +24,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; text-decoration: none; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html[data-motion="off"] { scroll-behavior: auto; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
 .mono { font-family: var(--font-mono); letter-spacing: .04em; text-transform: uppercase; font-size: 12px; line-height: 1.2; }
@@ -140,9 +140,7 @@ a { color: inherit; text-decoration: none; }
 .aria-cursor { position: absolute; right: -3px; bottom: -9px; width: 14px; height: 14px; opacity: 0; pointer-events: none; z-index: 3; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
 .aria-chip.drag { z-index: 4; box-shadow: 0 8px 16px -4px rgba(0,0,0,.4); }
 
-@media (prefers-reduced-motion: reduce) {
-  .aria-avatar::before, .dot { animation: none; }
-}
+html[data-motion="off"] .aria-avatar::before, html[data-motion="off"] .dot { animation: none; }
 
 /* ---------- Mockup do painel de parceiros e gerentes (dados fictícios) ---------- */
 .pg-art { aspect-ratio: 4 / 5; background: #1b3fd8; }
@@ -246,7 +244,7 @@ a { color: inherit; text-decoration: none; }
 .cd-aud { color: #cfcfcf; margin-bottom: 4px; }
 .cd-aud b { color: #fff; }
 .cd-packet { position: absolute; top: 46%; left: 30%; width: 12px; height: 12px; border-radius: 50%; background: #69d057; box-shadow: 0 0 14px 3px rgba(105, 208, 87, .7); opacity: 0; pointer-events: none; }
-@media (prefers-reduced-motion: reduce) { .cd-caret { animation: none; } }
+html[data-motion="off"] .cd-caret { animation: none; }
 
 /* ---------- Animações e Sobre mim ---------- */
 .hero-h mark { --mk: 1; color: var(--amber); background: linear-gradient(var(--amber), var(--amber)) left 98% / calc(var(--mk) * 100%) 4px no-repeat; }
@@ -279,13 +277,13 @@ a { color: inherit; text-decoration: none; }
   .stats { grid-template-columns: 1fr; gap: 20px; }
   .fatos { grid-template-columns: 1fr; }
 }
-@media (prefers-reduced-motion: reduce) { .marquee-track { transform: none !important; } }
+html[data-motion="off"] .marquee-track { transform: none !important; }
 
 /* ---------- Título no topo ---------- */
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--stone); margin-bottom: 22px; }
 .eyebrow i { width: 8px; height: 8px; border-radius: 50%; background: var(--amber); animation: pulso 1.8s ease-in-out infinite; }
 @keyframes pulso { 50% { transform: scale(1.7); opacity: .5; } }
-@media (prefers-reduced-motion: reduce) { .eyebrow i { animation: none; } }
+html[data-motion="off"] .eyebrow i { animation: none; }
 
 /* ---------- Demo escalada (cartões e modal) ---------- */
 .scaled { position: relative; width: 100%; overflow: hidden; }
@@ -491,7 +489,7 @@ section[id] { scroll-margin-top: 72px; }
   .pipe-line, .pnode::before { display: none; }
 }
 @media (max-width: 560px) { .pipe-row { grid-template-columns: 1fr; } .pipe-h h2 { font-size: 32px; } }
-@media (prefers-reduced-motion: reduce) { .pipe-line .pulse { display: none; } }
+html[data-motion="off"] .pipe-line .pulse { display: none; }
 .pipe { padding-left: 40px; padding-right: 40px; }
 
 /* ---------- Camada de movimento ---------- */
@@ -553,12 +551,10 @@ button.btn-amber { border: 0; cursor: pointer; }
   .pnode { flex-basis: 290px; margin-right: 28px; }
   .pnode::after { width: calc(100% + 28px - 16px); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .pipe-view { -webkit-mask-image: none; mask-image: none; margin: 36px 0 0; padding-top: 0; }
-  .pipe-track { flex-wrap: wrap; width: auto; gap: 36px 24px; }
-  .pnode { flex: 1 1 240px; margin: 0; }
-  .pnode::before, .pnode::after, .pnode[data-dup] { display: none; }
-}
+html[data-motion="off"] .pipe-view { -webkit-mask-image: none; mask-image: none; margin: 36px 0 0; padding-top: 0; }
+html[data-motion="off"] .pipe-track { flex-wrap: wrap; width: auto; gap: 36px 24px; }
+html[data-motion="off"] .pnode { flex: 1 1 240px; margin: 0; }
+html[data-motion="off"] .pnode::before, html[data-motion="off"] .pnode::after, html[data-motion="off"] .pnode[data-dup] { display: none; }
 
 /* ---------- Botões com vida ---------- */
 .nav .btn-amber, .hero-btns .btn-amber { position: relative; overflow: hidden; }
@@ -566,9 +562,7 @@ button.btn-amber { border: 0; cursor: pointer; }
 @keyframes brilho { 0%, 55% { transform: translateX(-140%) skewX(-18deg); } 100% { transform: translateX(340%) skewX(-18deg); } }
 .nav .btn-amber { animation: anel 2.6s ease-out infinite; }
 @keyframes anel { 0% { box-shadow: 0 0 0 0 rgba(252, 170, 45, .55); } 70%, 100% { box-shadow: 0 0 0 12px rgba(252, 170, 45, 0); } }
-@media (prefers-reduced-motion: reduce) {
-  .nav .btn-amber, .nav .btn-amber::after, .hero-btns .btn-amber::after { animation: none; }
-}
+html[data-motion="off"] .nav .btn-amber, html[data-motion="off"] .nav .btn-amber::after, html[data-motion="off"] .hero-btns .btn-amber::after { animation: none; }
 
 /* ---------- Nome com degradê que muda de cor ---------- */
 .brand {
@@ -582,4 +576,14 @@ button.btn-amber { border: 0; cursor: pointer; }
 }
 .brand i { background: linear-gradient(90deg, #fffef2, #fcaa2d, #ff5a5f, #ff4fa3, #6c8cff, #fffef2); background-size: 300% 100%; animation: fluxo 9s linear infinite; }
 @keyframes fluxo { to { background-position: -300% 0; } }
-@media (prefers-reduced-motion: reduce) { .brand, .brand i { animation: none; } }
+html[data-motion="off"] .brand, html[data-motion="off"] .brand i { animation: none; }
+
+/* ---------- Controle de animações ---------- */
+.mov-btn { background: none; border: 0; border-bottom: 1px solid var(--rule); color: var(--ink); cursor: pointer; padding: 0 0 1px; }
+.mov-btn:hover { color: var(--amber); border-color: var(--amber); }
+.mov-aviso { position: fixed; left: 20px; bottom: 20px; z-index: 150; max-width: 380px; background: var(--page-cream); border: 1px solid var(--amber); border-radius: 2px; padding: 16px 18px; }
+.mov-aviso p { font-size: 15px; line-height: 1.4; margin-bottom: 12px; }
+.mov-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.mov-acoes .btn { cursor: pointer; }
+.mov-acoes .btn-amber { border: 0; }
+@media (max-width: 560px) { .mov-aviso { left: 12px; right: 12px; bottom: 12px; max-width: none; } }

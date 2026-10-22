@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { Draggable } from 'gsap/Draggable';
 
 gsap.registerPlugin(Draggable);
@@ -130,7 +131,7 @@ export default function AriaDemo() {
   // Card do cliente: entra deslizando; Esc fecha o card antes de fechar a demo.
   useEffect(() => {
     if (!sel || !gaveta.current) return;
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (!!movimentoLigado()) {
       gsap.fromTo(gaveta.current, { xPercent: 12, autoAlpha: 0 }, { xPercent: 0, autoAlpha: 1, duration: 0.35, ease: 'power3.out' });
     }
     const tecla = (e) => {

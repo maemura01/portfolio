@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import AriaDemo from './AriaDemo';
 import ScaledArt from './ScaledArt';
 import { PROJETOS, Arte } from './projects';
@@ -13,7 +14,7 @@ export default function Modal({ id, onClose }) {
 
   useEffect(() => {
     const anterior = document.activeElement;
-    const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduzido = !movimentoLigado();
     document.body.style.overflow = 'hidden';
     fechar.current?.focus();
 

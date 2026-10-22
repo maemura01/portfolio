@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Carousel from './Carousel';
 import Modal from './Modal';
 import MotionLayer from './MotionLayer';
 import Contato from './Contato';
+import { MovimentoAviso, MovimentoBotao } from './Movimento';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,7 +66,7 @@ export default function Portfolio() {
   useEffect(() => {
     const mm = gsap.matchMedia();
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       // Abertura: a frase sobe linha por linha, uma vez só.
       gsap.from('.hero-h .l > span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.15 });
       gsap.from('.hero-side > *', { autoAlpha: 0, y: 14, duration: 0.7, ease: 'power2.out', stagger: 0.1, delay: 0.55 });
@@ -117,6 +119,7 @@ export default function Portfolio() {
   return (
     <div ref={raiz}>
       <MotionLayer />
+      <MovimentoAviso />
       <header className="nav">
         <div className="wrap">
           <a className="brand" href="#" aria-label="Ricardo Maemura">
@@ -255,6 +258,7 @@ export default function Portfolio() {
           <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={EMAIL}>ricmaemura@gmail.com</a>
           <a href="https://wa.me/5516991941178" target="_blank" rel="noopener noreferrer">+55 (16) 99194-1178</a>
+          <MovimentoBotao />
         </span>
       </footer>
       {contato && <Contato onClose={() => setContato(false)} />}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
@@ -20,7 +21,7 @@ export default function MotionLayer() {
   useEffect(() => {
     const mm = gsap.matchMedia();
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       const limpar = [];
 
       // ---------- Rolagem suave, sincronizada com o ScrollTrigger ----------

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -51,7 +52,7 @@ export default function ParceirosMock() {
     const fmtVendas = (n) => String(Math.round(n));
     const mm = gsap.matchMedia();
 
-    mm.add('(prefers-reduced-motion: reduce)', () => {
+    if (!movimentoLigado()) mm.add('all', () => {
       gsap.set(views, { autoAlpha: 0 });
       gsap.set(views[0], { autoAlpha: 1 });
       vendas.textContent = fmtVendas(312);
@@ -59,7 +60,7 @@ export default function ParceirosMock() {
       gsap.set(spark, { scaleY: 1 });
     });
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       const c = { n: 0, a: 0, s: 80 };
       const tl = gsap.timeline({ repeat: -1, paused: true });
       const T = 3.7; // duração de cada aba

@@ -27,8 +27,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+    <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: "(function(){try{var o=localStorage.getItem('movimento');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var on=o!=='off';var d=document.documentElement;d.dataset.motion=on?'on':'off';d.dataset.sistema=r?'reduzido':'normal';}catch(e){}})();" }} />
+        {children}
+      </body>
     </html>
   );
 }

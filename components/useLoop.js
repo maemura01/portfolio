@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,11 +17,11 @@ export function useLoop(ref, build, final) {
     if (!el) return;
     const mm = gsap.matchMedia();
 
-    mm.add('(prefers-reduced-motion: reduce)', () => {
+    if (!movimentoLigado()) mm.add('all', () => {
       final?.(el);
     });
 
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       const tl = gsap.timeline({ repeat: -1, paused: true });
       build(tl, el);
       const st = ScrollTrigger.create({

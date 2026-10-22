@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { movimentoLigado } from './motion';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -70,7 +71,7 @@ export default function Carousel({ onOpen }) {
 
     // Entrada: cartões sobem em cascata.
     const mm = gsap.matchMedia();
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
+    if (movimentoLigado()) mm.add('all', () => {
       gsap.from('.card', {
         y: 40,
         autoAlpha: 0,
@@ -84,7 +85,7 @@ export default function Carousel({ onOpen }) {
     // Inclinação seguindo o mouse (só em ponteiro fino).
     const cartoes = tr.querySelectorAll('.card');
     const limpar = [];
-    if (window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches) {
+    if (movimentoLigado() && window.matchMedia('(hover: hover)').matches) {
       cartoes.forEach((c) => {
         const alvo = c.querySelector('.card-in');
         const rx = gsap.quickTo(alvo, 'rotationX', { duration: 0.5, ease: 'power3.out' });
