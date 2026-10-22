@@ -164,8 +164,7 @@ export default function Portfolio() {
 
         <section className="wrap sobre" id="sobre">
           <div className="reveal sobre-h">
-            <span className="mono">Sobre mim</span>
-            <h2>Cuido do dado e da tela que o mostra.</h2>
+            <h2>Sobre mim</h2>
             {FOTO && (
               <figure className="foto">
                 <img src={FOTO} alt="Ricardo Maemura" width="640" height="800" loading="lazy" />
