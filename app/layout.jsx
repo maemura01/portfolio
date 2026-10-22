@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <body>
-        <script dangerouslySetInnerHTML={{ __html: "(function(){try{var o=localStorage.getItem('movimento');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var on=o!=='off';var d=document.documentElement;d.dataset.motion=on?'on':'off';d.dataset.sistema=r?'reduzido':'normal';}catch(e){}})();" }} />
+        <script dangerouslySetInnerHTML={{ __html: "(function(){try{var o=localStorage.getItem('movimento');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var on=o!=='off';var d=document.documentElement;d.dataset.motion=on?'on':'off';d.dataset.sistema=r?'reduzido':'normal';var m=function(){d.style.setProperty('--cw',d.clientWidth+'px')};m();if(window.ResizeObserver){new ResizeObserver(m).observe(d)}else{addEventListener('resize',m)}}catch(e){}})();" }} />
         {children}
       </body>
     </html>

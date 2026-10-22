@@ -299,7 +299,7 @@ html[data-motion="off"] .eyebrow i { animation: none; }
 .car-btns { display: inline-flex; gap: 8px; }
 .car-btn { width: 40px; height: 40px; border: 1px solid rgba(255, 254, 242, .6); border-radius: 2px; background: transparent; color: var(--ink); font-size: 18px; cursor: pointer; transition: background .2s, color .2s; }
 .car-btn:hover { background: var(--amber); color: #191918; border-color: var(--amber); }
-.car-viewport { overflow: hidden; cursor: grab; margin-right: calc(50% - 50vw); }
+.car-viewport { overflow: hidden; cursor: grab; margin-right: calc(50% - var(--cw, 100vw) / 2); }
 .car-viewport:active { cursor: grabbing; }
 .car-track { display: flex; gap: 24px; width: max-content; padding-right: 40px; touch-action: pan-y; }
 .card { flex: 0 0 420px; background: none; border: 0; padding: 0; text-align: left; color: inherit; font: inherit; cursor: inherit; letter-spacing: inherit; }
@@ -587,3 +587,9 @@ html[data-motion="off"] .brand, html[data-motion="off"] .brand i { animation: no
 /* os cartões da agenda ficam dentro da grade: o z-index do arrastar não cobre o painel do cliente */
 .ad-grid { isolation: isolate; z-index: 0; }
 .ad-card { z-index: 30; }
+
+/* ---------- Sem barra de rolagem horizontal ---------- */
+/* 100vw inclui a barra de rolagem vertical; o corte evita que o carrossel (que sangra até a borda) crie rolagem lateral */
+html { overflow-x: hidden; }
+@supports (overflow: clip) { html { overflow-x: clip; } }
+.footer .links { flex-wrap: wrap; gap: 10px 18px; }
