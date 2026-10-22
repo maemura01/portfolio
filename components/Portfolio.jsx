@@ -16,7 +16,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/ricardo-maemura';
 const EMAIL = 'mailto:ricmaemura@gmail.com';
 
 // Caminho da foto em /public (ex.: '/foto.jpg'). Sem foto, o espaço não aparece.
-const FOTO = null;
+const FOTO = '/foto.jpg';
 
 // Descrições genéricas: nada de nome de empresa, parceiro ou cliente.
 const PROJETOS = [
