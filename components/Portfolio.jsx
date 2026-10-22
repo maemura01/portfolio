@@ -15,6 +15,9 @@ const GITHUB = 'https://github.com/maemura01';
 const LINKEDIN = 'https://www.linkedin.com/in/ricardo-maemura';
 const EMAIL = 'mailto:ricmaemura@gmail.com';
 
+// Caminho da foto em /public (ex.: '/foto.jpg'). Sem foto, o espaço não aparece.
+const FOTO = null;
+
 // Descrições genéricas: nada de nome de empresa, parceiro ou cliente.
 const PROJETOS = [
   {
@@ -64,6 +67,21 @@ const PROJETOS = [
   },
 ];
 
+const STATS = [
+  { to: 30, pre: '+', suf: ' mil', rotulo: 'registros por mês processados em pipelines' },
+  { to: 70, pre: '+', suf: ' mil', rotulo: 'registros extraídos e estruturados em Python' },
+  { to: 20, pre: '~', suf: '', rotulo: 'pessoas usam os meus painéis todos os dias' },
+];
+
+const FATOS = [
+  ['Base', 'Ribeirão Preto, SP'],
+  ['Formação', 'Ciência da Computação, UNIP (2028)'],
+  ['Certificação', 'DP-900 Azure Data Fundamentals'],
+  ['Idiomas', 'Inglês fluente, japonês básico'],
+];
+
+const MARQUEE = ['SQL', 'PostgreSQL', 'Next.js', 'React', 'Supabase', 'Python', 'Playwright', 'FastAPI', 'Metabase', 'Power BI', 'Automação', 'Vercel'];
+
 const STACK = [
   ['Dados e banco', 'PostgreSQL avançado, CTEs, window functions, JSONB, ETL, modelagem e Data Quality.'],
   ['Full stack', 'JavaScript e TypeScript, React, Next.js, Node.js, APIs serverless, OAuth e deploy na Vercel.'],
@@ -82,6 +100,47 @@ export default function Portfolio() {
       gsap.from('.hero-h .l > span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.15 });
       gsap.from('.hero-side > *', { autoAlpha: 0, y: 14, duration: 0.7, ease: 'power2.out', stagger: 0.1, delay: 0.55 });
 
+      // O marca-texto âmbar se desenha da esquerda pra direita.
+      gsap.fromTo('.hero-h mark', { '--mk': 0 }, { '--mk': 1, duration: 0.9, ease: 'power3.out', delay: 1.0 });
+
+      // Régua: as marcações se revelam e os marcadores âmbar crescem.
+      gsap.fromTo('.ruler', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.4, ease: 'power3.inOut', delay: 0.3 });
+      gsap.from('.ruler i', { scaleY: 0, transformOrigin: 'bottom', duration: 0.5, ease: 'back.out(2)', stagger: 0.14, delay: 1.1 });
+
+      // Barra de progresso de leitura no menu.
+      gsap.to('.progress', {
+        scaleX: 1,
+        ease: 'none',
+        scrollTrigger: { start: 0, end: 'max', scrub: 0.2 },
+      });
+
+      // Faixa de tecnologias passando sem parar.
+      gsap.to('.marquee-track', { xPercent: -50, duration: 32, ease: 'none', repeat: -1 });
+
+      // Números que contam do zero ao entrar na tela.
+      gsap.utils.toArray('[data-count]').forEach((el) => {
+        const { to, pre = '', suf = '' } = el.dataset;
+        const alvo = Number(to);
+        const o = { v: 0 };
+        el.textContent = `${pre}0${suf}`;
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 90%',
+          once: true,
+          onEnter: () =>
+            gsap.to(o, { v: alvo, duration: 1.6, ease: 'power2.out', onUpdate: () => (el.textContent = `${pre}${Math.round(o.v)}${suf}`) }),
+        });
+      });
+
+      // Sobre mim e stack: blocos sobem em cascata.
+      gsap.set('.reveal > *', { autoAlpha: 0, y: 18 });
+      ScrollTrigger.batch('.reveal', {
+        start: 'top 88%',
+        once: true,
+        onEnter: (lote) =>
+          lote.forEach((el) => gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.09 })),
+      });
+
       // Cada projeto: a demo abre com wipe de cima pra baixo e o texto sobe.
       gsap.set('.proj-art', { clipPath: 'inset(0 0 100% 0)' });
       gsap.set('.p-text > *', { autoAlpha: 0, y: 16 });
@@ -94,9 +153,10 @@ export default function Portfolio() {
         start: 'top 88%',
         once: true,
         onEnter: (lote) =>
-          lote.forEach((el) =>
-            gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.08 })
-          ),
+          lote.forEach((el) => {
+            gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.08 });
+            gsap.fromTo(el.querySelectorAll('.pill'), { scale: 0.8, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.45, ease: 'back.out(2)', stagger: 0.07, delay: 0.35 });
+          }),
       });
     });
 
@@ -113,11 +173,13 @@ export default function Portfolio() {
           </a>
           <nav className="nav-links mono">
             <a href="#projetos">Projetos</a>
+            <a href="#sobre">Sobre</a>
             <a href="#stack">Stack</a>
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
             <a className="btn btn-amber" href={EMAIL}>Contato ↗</a>
           </nav>
         </div>
+        <i className="progress" aria-hidden="true" />
       </header>
 
       <main>
@@ -172,7 +234,58 @@ export default function Portfolio() {
           ))}
         </section>
 
-        <section className="wrap stack" id="stack">
+        <div className="marquee" aria-hidden="true">
+          <div className="marquee-track">
+            {[...MARQUEE, ...MARQUEE].map((t, i) => (
+              <span className="mono" key={i}>{t}<em>✦</em></span>
+            ))}
+          </div>
+        </div>
+
+        <section className="wrap sobre" id="sobre">
+          <div className="reveal sobre-h">
+            <span className="mono">Sobre mim</span>
+            <h2>Comecei pelos dados e fui atrás do que vem depois da análise.</h2>
+            {FOTO && (
+              <figure className="foto">
+                <img src={FOTO} alt="Ricardo Maemura" width="640" height="800" loading="lazy" />
+              </figure>
+            )}
+          </div>
+          <div className="reveal sobre-text">
+            <p>
+              Sou o Ricardo, de Ribeirão Preto (SP). Comecei com SQL, ETL e dashboards e percebi que o que mais me
+              interessava era o que acontece depois da análise. Passei a construir a solução inteira: o banco, as
+              regras de acesso, a interface e a automação que roda sozinha.
+            </p>
+            <p>
+              Hoje sou analista de dados pleno e desenvolvo, junto com isso, painéis e integrações que o time comercial
+              e a diretoria usam todos os dias. Gosto de transformar análise técnica em algo que se entende de
+              relance, e de entregar de ponta a ponta, sem depender de microgerenciamento.
+            </p>
+            <p>
+              Agora aprofundo Engenharia de Dados (orquestração, Data Warehouse e nuvem) sem largar o lado de produto.
+            </p>
+            <div className="stats">
+              {STATS.map((s) => (
+                <div className="stat" key={s.rotulo}>
+                  <b data-count data-to={s.to} data-pre={s.pre} data-suf={s.suf}>{`${s.pre}${s.to}${s.suf}`}</b>
+                  <span className="mono">{s.rotulo}</span>
+                </div>
+              ))}
+            </div>
+            <div className="fatos">
+              {FATOS.map(([k, v]) => (
+                <div className="li" key={k}>
+                  <b>{k}</b>
+                  <p>{v}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="wrap stack reveal" id="stack">
           <h2>Do banco de dados à interface.</h2>
           <div className="stack-list">
             {STACK.map(([titulo, texto]) => (
