@@ -45,10 +45,16 @@ export default function Modal({ id, onClose }) {
           <h2>{p.titulo}</h2>
           <span className="mono">Problema</span>
           <p>{p.problema}</p>
-          <span className="mono">Stack</span>
-          <div className="tags">
-            {p.camadas.flatMap(([, itens]) => itens).map((t) => <span className="pill" key={t}>{t}</span>)}
-          </div>
+          <span className="mono">Como foi feito</span>
+          <ul className="md-camadas">
+            {p.camadas.map(([nome, itens, nota]) => (
+              <li key={nome}>
+                <b className="mono">{nome}</b>
+                <p>{nota}</p>
+                <div className="tags">{itens.map((t) => <span className="pill" key={t}>{t}</span>)}</div>
+              </li>
+            ))}
+          </ul>
           <span className="mono">O que resolve</span>
           <p>{p.resolve}</p>
           {p.href && <a className="p-link mono" href={p.href} target="_blank" rel="noopener noreferrer">Ver código ↗</a>}

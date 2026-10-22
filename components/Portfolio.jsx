@@ -33,10 +33,10 @@ const FATOS = [
 const MARQUEE = ['SQL', 'PostgreSQL', 'Next.js', 'React', 'Supabase', 'Python', 'Playwright', 'FastAPI', 'Metabase', 'Power BI', 'Automação', 'Vercel'];
 
 const STACK = [
-  ['Dados e banco', 'PostgreSQL avançado, CTEs, window functions, JSONB, ETL, modelagem e Data Quality.'],
-  ['Full stack', 'JavaScript e TypeScript, React, Next.js, Node.js, APIs serverless, OAuth e deploy na Vercel.'],
-  ['Automação', 'Python (Pandas, Selenium, Playwright, FastAPI), cron, WhatsApp e Google Calendar.'],
-  ['BI', 'Metabase, Power BI e Excel avançado, com Supabase (Auth, RLS e migrations) no lado do app.'],
+  ['Dados e banco', 'Modelagem de tabelas, SQL avançado (CTEs, window functions, JSONB), ETL e rotinas de Data Quality no PostgreSQL.'],
+  ['Back-end e BFF', 'APIs e funções serverless entre o banco e a tela, com autenticação, permissões e integrações (OAuth, WhatsApp, Google).'],
+  ['Front-end', 'React e Next.js para interfaces claras e com movimento, pensadas para quem usa no dia a dia.'],
+  ['Automação e BI', 'Python (Pandas, Playwright, FastAPI), cron e robôs que fazem o trabalho repetitivo; Metabase, Power BI e Excel para analisar.'],
 ];
 
 export default function Portfolio() {
@@ -127,8 +127,8 @@ export default function Portfolio() {
           </div>
           <div className="hero-side">
             <p>
-              Desenvolvedor full stack com base em dados. Construo painéis, automações e integrações que
-              cerca de 20 pessoas usam todos os dias.
+              Sou analista de dados pleno e também desenvolvo aplicações completas: banco de dados, back-end,
+              interface e automação. Cerca de 20 pessoas usam o que eu construo todos os dias.
             </p>
             <div className="hero-btns">
               <a className="btn btn-amber" href="#projetos">Ver projetos ↓</a>
@@ -165,7 +165,7 @@ export default function Portfolio() {
         <section className="wrap sobre" id="sobre">
           <div className="reveal sobre-h">
             <span className="mono">Sobre mim</span>
-            <h2>Comecei pelos dados e fui atrás do que vem depois da análise.</h2>
+            <h2>Cuido do dado e da tela que o mostra.</h2>
             {FOTO && (
               <figure className="foto">
                 <img src={FOTO} alt="Ricardo Maemura" width="640" height="800" loading="lazy" />
@@ -174,17 +174,20 @@ export default function Portfolio() {
           </div>
           <div className="reveal sobre-text">
             <p>
-              Sou o Ricardo, de Ribeirão Preto (SP). Comecei com SQL, ETL e dashboards e percebi que o que mais me
-              interessava era o que acontece depois da análise. Passei a construir a solução inteira: o banco, as
-              regras de acesso, a interface e a automação que roda sozinha.
+              Sou o Ricardo, de Ribeirão Preto (SP), analista de dados pleno e desenvolvedor full stack. Trabalho nas
+              duas pontas do mesmo problema: de um lado, o banco de dados e as consultas que transformam número bruto
+              em informação; do outro, as telas e as automações que fazem essa informação chegar a quem decide.
             </p>
             <p>
-              Hoje sou analista de dados pleno e desenvolvo, junto com isso, painéis e integrações que o time comercial
-              e a diretoria usam todos os dias. Gosto de transformar análise técnica em algo que se entende de
-              relance, e de entregar de ponta a ponta, sem depender de microgerenciamento.
+              Na prática, isso significa modelar tabelas e regras de acesso no PostgreSQL, escrever o back-end que fica
+              entre o banco e a tela (o BFF, com funções serverless e integrações como Google Calendar e WhatsApp) e
+              construir a interface em React e Next.js. As análises também são minhas: SQL, Metabase e Power BI. Mas o
+              que mais gosto é de ver a coisa inteira funcionando, do dado ao clique.
             </p>
             <p>
-              Agora aprofundo Engenharia de Dados (orquestração, Data Warehouse e nuvem) sem largar o lado de produto.
+              Meu jeito de trabalhar é entregar de ponta a ponta, com autonomia, de um modo que o time comercial e a
+              diretoria entendam sem precisar de explicação. Agora estou aprofundando Engenharia de Dados (orquestração,
+              Data Warehouse e nuvem) para levar tudo isso para uma escala maior.
             </p>
             <div className="stats">
               {STATS.map((s) => (

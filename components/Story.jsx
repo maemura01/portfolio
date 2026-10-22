@@ -95,11 +95,14 @@ export default function Story() {
               </div>
               <div className="chap-diagram" aria-label={`Stack de ${p.titulo}`}>
                 <div className="spine"><i /></div>
-                {p.camadas.map(([nome, itens]) => (
+                {p.camadas.map(([nome, itens, nota]) => (
                   <div className="layer" key={nome}>
                     <span className="mono">{nome}</span>
-                    <div className="chips">
-                      {itens.map((t) => <i className="chip" key={t}>{t}</i>)}
+                    <div>
+                      <div className="chips">
+                        {itens.map((t) => <i className="chip" key={t}>{t}</i>)}
+                      </div>
+                      <p className="nota">{nota}</p>
                     </div>
                   </div>
                 ))}
