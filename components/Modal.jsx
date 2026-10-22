@@ -34,7 +34,7 @@ export default function Modal({ id, onClose }) {
   if (!p) return null;
 
   return (
-    <div className="modal" role="dialog" aria-modal="true" aria-label={p.titulo} ref={raiz}>
+    <div className="modal" data-lenis-prevent role="dialog" aria-modal="true" aria-label={p.titulo} ref={raiz}>
       <div className="md-bar">
         <span className="mono">{p.interativo ? 'Demo interativa · dados fictícios' : 'Como funciona · dados fictícios'}</span>
         <button type="button" className="btn btn-ghost" onClick={onClose} ref={fechar}>Fechar ✕</button>

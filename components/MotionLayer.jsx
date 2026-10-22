@@ -1,0 +1,183 @@
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
+import Lenis from 'lenis';
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+/**
+ * Camada de movimento da página inteira: rolagem suave, revelação de textos,
+ * parallax, faixa reativa à rolagem, cursor, brilho e botões magnéticos.
+ * Tudo só roda com movimento permitido; sem isso a página fica estática.
+ */
+export default function MotionLayer() {
+  const cursor = useRef(null);
+  const brilho = useRef(null);
+
+  useEffect(() => {
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const limpar = [];
+
+      // ---------- Rolagem suave, sincronizada com o ScrollTrigger ----------
+      const lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.95 });
+      lenis.on('scroll', ScrollTrigger.update);
+      const passo = (t) => lenis.raf(t * 1000);
+      gsap.ticker.add(passo);
+      gsap.ticker.lagSmoothing(0);
+      limpar.push(() => { gsap.ticker.remove(passo); lenis.destroy(); });
+
+      // âncoras do menu deslizam em vez de pular
+      const aoClicar = (e) => {
+        const a = e.target.closest?.('a[href^="#"]');
+        if (!a) return;
+        const id = a.getAttribute('href');
+        if (id === '#') { e.preventDefault(); lenis.scrollTo(0, { duration: 1.4 }); return; }
+        const alvo = document.querySelector(id);
+        if (alvo) { e.preventDefault(); lenis.scrollTo(alvo, { duration: 1.4 }); }
+      };
+      document.addEventListener('click', aoClicar);
+      limpar.push(() => document.removeEventListener('click', aoClicar));
+
+      // ---------- Faixa de tecnologias: reage à velocidade da rolagem ----------
+      const faixa = gsap.to('.marquee-track', { xPercent: -50, duration: 34, ease: 'none', repeat: -1 });
+      let yAnt = window.scrollY;
+      let dir = 1;
+      let ts = 1;
+      const veloc = (_t, delta) => {
+        const y = window.scrollY;
+        const v = (y - yAnt) / ((delta || 16) / 1000);
+        yAnt = y;
+        if (Math.abs(v) > 8) dir = v > 0 ? 1 : -1;
+        const alvo = dir * (1 + Math.min(Math.abs(v) / 280, 7));
+        ts += (alvo - ts) * 0.08;
+        faixa.timeScale(ts);
+        gsap.set('.marquee-track', { skewX: gsap.utils.clamp(-7, 7, -v / 260) });
+      };
+      gsap.ticker.add(veloc);
+      limpar.push(() => gsap.ticker.remove(veloc));
+
+      // ---------- Revelação de títulos linha a linha e texto que acende ----------
+      const dividir = () => {
+        gsap.utils.toArray('.pipe-h h2, .sobre-h h2').forEach((el) => {
+          SplitText.create(el, {
+            type: 'lines',
+            mask: 'lines',
+            autoSplit: true,
+            onSplit: (self) =>
+              gsap.from(self.lines, {
+                yPercent: 110,
+                duration: 0.95,
+                ease: 'power3.out',
+                stagger: 0.1,
+                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+              }),
+          });
+        });
+        // o texto do Sobre mim vai acendendo palavra por palavra enquanto se lê
+        gsap.utils.toArray('.sobre-text > p').forEach((p) => {
+          SplitText.create(p, {
+            type: 'words',
+            autoSplit: true,
+            onSplit: (self) =>
+              gsap.fromTo(
+                self.words,
+                { opacity: 0.2 },
+                {
+                  opacity: 1,
+                  ease: 'none',
+                  stagger: 0.06,
+                  scrollTrigger: { trigger: p, start: 'top 82%', end: 'bottom 58%', scrub: true },
+                }
+              ),
+          });
+        });
+      };
+      document.fonts.ready.then(dividir);
+
+      // ---------- Parallax ----------
+      gsap.to('.hero-h', { yPercent: -14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to('.hero-side', { y: -40, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.fromTo('.foto', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.1, ease: 'power3.inOut', scrollTrigger: { trigger: '.foto', start: 'top 88%', once: true } });
+      gsap.fromTo('.foto img', { yPercent: -7, scale: 1.14 }, { yPercent: 7, scale: 1.14, ease: 'none', scrollTrigger: { trigger: '.foto', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+      // ---------- Só com mouse: cursor, brilho e botões magnéticos ----------
+      if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        const c = cursor.current;
+        const interno = c.firstElementChild;
+        const rotulo = interno.firstElementChild;
+        gsap.set(interno, { xPercent: -50, yPercent: -50 });
+        const cx = gsap.quickTo(c, 'x', { duration: 0.35, ease: 'power3.out' });
+        const cy = gsap.quickTo(c, 'y', { duration: 0.35, ease: 'power3.out' });
+        const b = brilho.current;
+        gsap.set(b, { xPercent: -50, yPercent: -50 });
+        const bx = gsap.quickTo(b, 'x', { duration: 1.4, ease: 'power3.out' });
+        const by = gsap.quickTo(b, 'y', { duration: 1.4, ease: 'power3.out' });
+        gsap.set([c, b], { autoAlpha: 0 });
+
+        let visivel = false;
+        const mover = (e) => {
+          if (!visivel) { visivel = true; gsap.to([c, b], { autoAlpha: 1, duration: 0.4 }); }
+          cx(e.clientX); cy(e.clientY); bx(e.clientX); by(e.clientY);
+        };
+        const estado = (tam, txt, fundo = true) => {
+          rotulo.textContent = txt;
+          gsap.to(interno, { width: tam, height: tam, duration: 0.35, ease: 'power3.out', backgroundColor: fundo ? '#fcaa2d' : 'rgba(252,170,45,0)', borderColor: '#fcaa2d' });
+        };
+        const sobre = (e) => {
+          const t = e.target;
+          if (t.closest?.('.modal')) return estado(10, '');
+          if (t.closest?.('.card')) return estado(92, 'Abrir');
+          if (t.closest?.('.car-viewport')) return estado(92, 'Arraste');
+          if (t.closest?.('a, button, textarea, input')) return estado(36, '', false);
+          estado(10, '');
+        };
+        const saiu = () => { visivel = false; gsap.to([c, b], { autoAlpha: 0, duration: 0.3 }); };
+        window.addEventListener('pointermove', mover);
+        window.addEventListener('pointerover', sobre);
+        document.documentElement.addEventListener('pointerleave', saiu);
+        limpar.push(() => {
+          window.removeEventListener('pointermove', mover);
+          window.removeEventListener('pointerover', sobre);
+          document.documentElement.removeEventListener('pointerleave', saiu);
+        });
+
+        // botões que "puxam" o cursor
+        gsap.utils.toArray('.nav .btn, .hero-btns .btn, .car-btn').forEach((el) => {
+          const qx = gsap.quickTo(el, 'x', { duration: 0.4, ease: 'power3.out' });
+          const qy = gsap.quickTo(el, 'y', { duration: 0.4, ease: 'power3.out' });
+          const mv = (e) => {
+            const r = el.getBoundingClientRect();
+            qx((e.clientX - (r.left + r.width / 2)) * 0.28);
+            qy((e.clientY - (r.top + r.height / 2)) * 0.38);
+          };
+          const sai = () => { qx(0); qy(0); };
+          el.addEventListener('pointermove', mv);
+          el.addEventListener('pointerleave', sai);
+          limpar.push(() => { el.removeEventListener('pointermove', mv); el.removeEventListener('pointerleave', sai); });
+        });
+      }
+
+      // os gatilhos foram criados em ordem diferente da do layout: recalcula
+      const t = setTimeout(() => ScrollTrigger.refresh(), 600);
+      limpar.push(() => clearTimeout(t));
+
+      return () => limpar.forEach((f) => f());
+    });
+
+    return () => mm.revert();
+  }, []);
+
+  return (
+    <>
+      <div className="glow" ref={brilho} aria-hidden="true" />
+      <div className="cursor" ref={cursor} aria-hidden="true">
+        <div className="cursor-in"><span /></div>
+      </div>
+    </>
+  );
+}

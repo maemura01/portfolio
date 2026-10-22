@@ -79,7 +79,6 @@ export default function AriaMock() {
           y: () => destino.getBoundingClientRect().top - arrastado.getBoundingClientRect().top + gsap.getProperty(arrastado, 'y'),
           duration: 1.05,
           ease: 'power2.inOut',
-          invalidateOnRefresh: true,
         })
         .to(cursor, { opacity: 0, duration: 0.2 })
         .add(() => arrastado?.classList.remove('drag'))

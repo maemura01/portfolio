@@ -6,6 +6,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Carousel from './Carousel';
 import Modal from './Modal';
+import MotionLayer from './MotionLayer';
+import Contato from './Contato';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,6 +59,7 @@ const STACK = [
 export default function Portfolio() {
   const raiz = useRef(null);
   const [aberto, setAberto] = useState(null);
+  const [contato, setContato] = useState(false);
 
   useEffect(() => {
     const mm = gsap.matchMedia();
@@ -79,9 +82,6 @@ export default function Portfolio() {
         ease: 'none',
         scrollTrigger: { start: 0, end: 'max', scrub: 0.2 },
       });
-
-      // Faixa de tecnologias passando sem parar.
-      gsap.to('.marquee-track', { xPercent: -50, duration: 32, ease: 'none', repeat: -1 });
 
       // Números que contam do zero ao entrar na tela.
       gsap.utils.toArray('[data-count]').forEach((el) => {
@@ -130,6 +130,7 @@ export default function Portfolio() {
 
   return (
     <div ref={raiz}>
+      <MotionLayer />
       <header className="nav">
         <div className="wrap">
           <a className="brand" href="#" aria-label="Ricardo Maemura">
@@ -141,7 +142,7 @@ export default function Portfolio() {
             <a href="#sobre">Sobre</a>
             <a href="#stack">Stack</a>
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a className="btn btn-amber" href={EMAIL}>Contato ↗</a>
+            <button type="button" className="btn btn-amber" onClick={() => setContato((v) => !v)} aria-expanded={contato} aria-haspopup="dialog">Contato ↗</button>
           </nav>
         </div>
         <i className="progress" aria-hidden="true" />
@@ -267,6 +268,7 @@ export default function Portfolio() {
           <a href="https://wa.me/5516991941178" target="_blank" rel="noopener noreferrer">+55 (16) 99194-1178</a>
         </span>
       </footer>
+      {contato && <Contato onClose={() => setContato(false)} />}
       {aberto && <Modal id={aberto} onClose={() => setAberto(null)} />}
     </div>
   );

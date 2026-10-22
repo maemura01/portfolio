@@ -26,9 +26,21 @@ export default function Carousel({ onOpen }) {
 
     const limite = () => Math.max(0, tr.scrollWidth - vp.clientWidth);
     const passo = () => tr.firstElementChild.getBoundingClientRect().width + GAP;
+    const cartoesEl = [...tr.querySelectorAll('.card')];
+    const paralaxe = () => {
+      const r = vp.getBoundingClientRect();
+      const meio = r.left + r.width / 2;
+      cartoesEl.forEach((cd) => {
+        const b = cd.getBoundingClientRect();
+        const d = (b.left + b.width / 2 - meio) / r.width;
+        gsap.set(cd.querySelector('.card-scale'), { x: d * -34 });
+        gsap.set(cd.querySelector('.card-meta'), { x: d * 14 });
+      });
+    };
     const progresso = () => {
       const m = limite();
       gsap.set(barra.current, { scaleX: m ? Math.min(1, Math.max(0.04, -gsap.getProperty(tr, 'x') / m)) : 1 });
+      paralaxe();
     };
 
     const [d] = Draggable.create(tr, {
