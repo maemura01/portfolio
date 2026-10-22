@@ -49,6 +49,14 @@ function IconGithub() {
   );
 }
 
+function IconLinkedin() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.84-2.05 3.8-2.05 4.07 0 4.84 2.68 4.84 6.16v5.8h-4v-5.14c0-1.23-.02-2.8-1.7-2.8-1.7 0-1.96 1.33-1.96 2.7v5.24h-4V9.75Z" />
+    </svg>
+  );
+}
+
 function IconMail() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -66,6 +74,8 @@ export default function Portfolio() {
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       // Abertura: o nome entra letra por letra, uma vez só.
       gsap.from('.nav .name span', { yPercent: 110, duration: 0.7, ease: 'power3.out', stagger: 0.035, delay: 0.1 });
+
+      gsap.from('.hero-h .l > span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.25 });
 
       // Tiles: wipe de cima pra baixo ao entrar na tela, em cascata.
       gsap.set('.tile', { clipPath: 'inset(0 0 100% 0)' });
@@ -91,14 +101,24 @@ export default function Portfolio() {
         <a className="contact" href="mailto:ricmaemura@gmail.com">Contact</a>
         <span className="icons">
           <a href="https://github.com/maemura01" aria-label="GitHub"><IconGithub /></a>
+          <a href="https://www.linkedin.com/in/ricardo-maemura" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><IconLinkedin /></a>
           <a href="mailto:ricmaemura@gmail.com" aria-label="E-mail"><IconMail /></a>
         </span>
       </header>
 
-      <p className="intro">
-        Desenvolvedor full stack com base em dados. SQL, Next.js, Supabase e automação, em produção para
-        cerca de 20 pessoas. Todas as demos abaixo usam dados fictícios.
-      </p>
+      <section className="hero">
+        <h1 className="hero-h" aria-label="Do dado ao produto, em produção.">
+          <span className="l" aria-hidden="true"><span>Do dado ao produto,</span></span>
+          <span className="l" aria-hidden="true"><span>em produção.</span></span>
+        </h1>
+        <div className="hero-row">
+          <p className="intro">
+            Desenvolvedor full stack com base em dados. Construo painéis, automações e integrações que cerca de
+            20 pessoas usam todos os dias. Todas as demos abaixo usam dados fictícios.
+          </p>
+          <p className="hero-stack">SQL · PostgreSQL · Next.js · React · Supabase · Python · Automação</p>
+        </div>
+      </section>
 
       <main className="grid">
         {PROJETOS.map((p) => {
