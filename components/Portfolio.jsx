@@ -5,7 +5,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import Carousel from './Carousel';
-import Story from './Story';
 import Modal from './Modal';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -20,7 +19,7 @@ const FOTO = '/foto.jpg';
 const STATS = [
   { to: 30, pre: '+', suf: ' mil', rotulo: 'registros por mês processados em pipelines' },
   { to: 70, pre: '+', suf: ' mil', rotulo: 'registros extraídos e estruturados em Python' },
-  { to: 20, pre: '~', suf: '', rotulo: 'pessoas usam os meus painéis todos os dias' },
+  { to: 20, pre: '~', suf: '', rotulo: 'pessoas usam as minhas aplicações todos os dias' },
 ];
 
 const FATOS = [
@@ -33,10 +32,26 @@ const FATOS = [
 const MARQUEE = ['SQL', 'PostgreSQL', 'Next.js', 'React', 'Supabase', 'Python', 'Playwright', 'FastAPI', 'Metabase', 'Power BI', 'Automação', 'Vercel'];
 
 const STACK = [
-  ['Dados e banco', 'Modelagem de tabelas, SQL avançado (CTEs, window functions, JSONB), ETL e rotinas de Data Quality no PostgreSQL.'],
-  ['Back-end e BFF', 'APIs e funções serverless entre o banco e a tela, com autenticação, permissões e integrações (OAuth, WhatsApp, Google).'],
-  ['Front-end', 'React e Next.js para interfaces claras e com movimento, pensadas para quem usa no dia a dia.'],
-  ['Automação e BI', 'Python (Pandas, Playwright, FastAPI), cron e robôs que fazem o trabalho repetitivo; Metabase, Power BI e Excel para analisar.'],
+  {
+    titulo: 'Dados e banco',
+    texto: 'Modelagem de tabelas, SQL avançado (CTEs, window functions, JSONB), ETL e rotinas de Data Quality no PostgreSQL.',
+    usado: ['Aria Console', 'Parceiros', 'Funil em SQL', 'Credenciais'],
+  },
+  {
+    titulo: 'Back-end e BFF',
+    texto: 'APIs e funções serverless entre o banco e a tela, com autenticação, permissões e integrações (OAuth, WhatsApp, Google).',
+    usado: ['Aria Console', 'Parceiros', 'Scraper', 'Credenciais'],
+  },
+  {
+    titulo: 'Front-end',
+    texto: 'React e Next.js para interfaces claras e com movimento, pensadas para quem usa no dia a dia.',
+    usado: ['Aria Console', 'Parceiros', 'Credenciais'],
+  },
+  {
+    titulo: 'Automação e BI',
+    texto: 'Python (Pandas, Playwright, FastAPI), cron e robôs que fazem o trabalho repetitivo; Metabase, Power BI e Excel para analisar.',
+    usado: ['Parceiros', 'Funil em SQL', 'Scraper'],
+  },
 ];
 
 export default function Portfolio() {
@@ -91,6 +106,23 @@ export default function Portfolio() {
         onEnter: (lote) =>
           lote.forEach((el) => gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.09 })),
       });
+
+      // Pipeline da stack: a linha se desenha, as etapas acendem e um pulso percorre o caminho.
+      gsap.set('.pipe-line .fill', { scaleX: 0, transformOrigin: 'left' });
+      gsap.set('.pnode', { autoAlpha: 0, y: 22 });
+      gsap.set('.pulse', { autoAlpha: 0 });
+      ScrollTrigger.create({
+        trigger: '.pipe',
+        start: 'top 70%',
+        once: true,
+        onEnter: () => {
+          const tl = gsap.timeline();
+          tl.to('.pipe-line .fill', { scaleX: 1, duration: 1.6, ease: 'power2.inOut' }, 0);
+          tl.to('.pnode', { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.35 }, 0.2);
+          tl.set('.pulse', { autoAlpha: 1 }, 1.8);
+          tl.fromTo('.pulse', { left: '0%' }, { left: 'calc(100% - 12px)', duration: 3.2, ease: 'none', repeat: -1, repeatDelay: 0.8 }, 1.8);
+        },
+      });
     });
 
     return () => mm.revert();
@@ -106,7 +138,6 @@ export default function Portfolio() {
           </a>
           <nav className="nav-links mono">
             <a href="#projetos">Projetos</a>
-            <a href="#como">Como funciona</a>
             <a href="#sobre">Sobre</a>
             <a href="#stack">Stack</a>
             <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -151,8 +182,6 @@ export default function Portfolio() {
           <div className="sec-h mono"><span>Projetos selecionados</span><span>05</span></div>
           <Carousel onOpen={setAberto} />
         </section>
-
-        <Story />
 
         <div className="marquee" aria-hidden="true">
           <div className="marquee-track">
@@ -207,13 +236,22 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <section className="wrap stack reveal" id="stack">
-          <h2>Do banco de dados à interface.</h2>
-          <div className="stack-list">
-            {STACK.map(([titulo, texto]) => (
-              <div className="li" key={titulo}>
-                <b>{titulo}</b>
-                <p>{texto}</p>
+        <section className="wrap pipe" id="stack">
+          <div className="pipe-h">
+            <h2>Do banco de dados à interface.</h2>
+            <p>O mesmo caminho em todos os projetos: o dado nasce no banco, passa por um back-end, chega à tela e vira automação.</p>
+          </div>
+          <div className="pipe-row">
+            <div className="pipe-line" aria-hidden="true"><i className="fill" /><i className="pulse" /></div>
+            {STACK.map((e, i) => (
+              <div className="pnode" key={e.titulo}>
+                <span className="mono pn-i">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="pn-t">{e.titulo}</h3>
+                <p>{e.texto}</p>
+                <span className="mono pn-u">Usado em</span>
+                <div className="tags">
+                  {e.usado.map((u) => <span className="pill" key={u}>{u}</span>)}
+                </div>
               </div>
             ))}
           </div>
@@ -226,6 +264,7 @@ export default function Portfolio() {
           <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
           <a href={EMAIL}>ricmaemura@gmail.com</a>
+          <a href="https://wa.me/5516991941178" target="_blank" rel="noopener noreferrer">+55 (16) 99194-1178</a>
         </span>
       </footer>
       {aberto && <Modal id={aberto} onClose={() => setAberto(null)} />}
