@@ -11,59 +11,65 @@ import CredMock from './CredMock';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const NOME = 'Ricardo Maemura';
+const GITHUB = 'https://github.com/maemura01';
+const LINKEDIN = 'https://www.linkedin.com/in/ricardo-maemura';
+const EMAIL = 'mailto:ricmaemura@gmail.com';
 
+// Descrições genéricas: nada de nome de empresa, parceiro ou cliente.
 const PROJETOS = [
   {
     id: 'aria',
     titulo: 'Aria Console',
-    stack: 'React · Supabase · Google Calendar',
-    href: 'https://github.com/maemura01/aria-console',
+    desc: 'Painel de uma IA de SDR que agenda reuniões. Agenda integrada ao Google Calendar com arrastar-e-soltar, métricas de conversão e permissões por usuário. Redesenhei a interface praticamente inteira.',
+    tags: ['React', 'Supabase', 'Google Calendar', 'RLS'],
+    href: `${GITHUB}/aria-console`,
+    link: 'Ver código ↗',
     arte: <AriaMock />,
   },
-  { id: 'parceiros', titulo: 'Painel de parceiros e gerentes', stack: 'SQL · Vercel · Cron · WhatsApp', arte: <ParceirosMock /> },
-  { id: 'sql', titulo: 'Funil de leads + SQL', stack: 'PostgreSQL · CTEs · Window functions', arte: <SqlMock /> },
+  {
+    id: 'parceiros',
+    titulo: 'Painel de parceiros e gerentes',
+    desc: 'Doze visões para a diretoria: ranking de gerentes, top de parceiros, meta do período e comparação por dia útil. Envia um resumo automático por WhatsApp em horários fixos.',
+    tags: ['SQL', 'Vercel', 'Cron', 'WhatsApp'],
+    nota: 'Código privado · demo com dados fictícios',
+    arte: <ParceirosMock />,
+  },
+  {
+    id: 'sql',
+    titulo: 'Funil de leads em SQL',
+    desc: 'Pipeline que processa mais de 30 mil leads por mês e liga as plataformas de mídia paga ao funil de vendas. CTEs e window functions para CPL, CAC e conversão por origem.',
+    tags: ['PostgreSQL', 'CTEs', 'Window functions', 'Metabase'],
+    nota: 'Consulta ilustrativa · dados fictícios',
+    arte: <SqlMock />,
+  },
   {
     id: 'scraper',
     titulo: 'Scraper de CRM',
-    stack: 'Python · Playwright · FastAPI',
-    href: 'https://github.com/maemura01/crm-proposal-scraper',
+    desc: 'Automação de interface para extrair propostas de um CRM sem API: sessão reaproveitada, paginação, gravação incremental e checkpoint para retomar de onde parou.',
+    tags: ['Python', 'Playwright', 'FastAPI'],
+    href: `${GITHUB}/crm-proposal-scraper`,
+    link: 'Ver código ↗',
     arte: <CrmMock />,
     wide: true,
   },
   {
     id: 'credenciais',
     titulo: 'Credenciais cifradas no navegador',
-    stack: 'ECIES · WebCrypto · Next.js · Supabase',
-    href: 'https://github.com/maemura01/secure-credential-intake',
+    desc: 'Coleta de credenciais cifradas no aparelho do usuário (ECIES e WebCrypto), lidas só no servidor e com cada leitura auditada por nome e horário.',
+    tags: ['ECIES', 'WebCrypto', 'Next.js', 'Supabase'],
+    href: `${GITHUB}/secure-credential-intake`,
+    link: 'Ver código ↗',
     arte: <CredMock />,
     wide: true,
   },
 ];
 
-function IconGithub() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.82 1.19 3.08 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
-    </svg>
-  );
-}
-
-function IconLinkedin() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5ZM3 9.75h4v11.5H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.84-2.05 3.8-2.05 4.07 0 4.84 2.68 4.84 6.16v5.8h-4v-5.14c0-1.23-.02-2.8-1.7-2.8-1.7 0-1.96 1.33-1.96 2.7v5.24h-4V9.75Z" />
-    </svg>
-  );
-}
-
-function IconMail() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="none" stroke="currentColor" strokeWidth="2" d="M3 5h18v14H3zM3 6l9 7 9-7" />
-    </svg>
-  );
-}
+const STACK = [
+  ['Dados e banco', 'PostgreSQL avançado, CTEs, window functions, JSONB, ETL, modelagem e Data Quality.'],
+  ['Full stack', 'JavaScript e TypeScript, React, Next.js, Node.js, APIs serverless, OAuth e deploy na Vercel.'],
+  ['Automação', 'Python (Pandas, Selenium, Playwright, FastAPI), cron, WhatsApp e Google Calendar.'],
+  ['BI', 'Metabase, Power BI e Excel avançado, com Supabase (Auth, RLS e migrations) no lado do app.'],
+];
 
 export default function Portfolio() {
   const raiz = useRef(null);
@@ -72,18 +78,25 @@ export default function Portfolio() {
     const mm = gsap.matchMedia();
 
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      // Abertura: o nome entra letra por letra, uma vez só.
-      gsap.from('.nav .name span', { yPercent: 110, duration: 0.7, ease: 'power3.out', stagger: 0.035, delay: 0.1 });
+      // Abertura: a frase sobe linha por linha, uma vez só.
+      gsap.from('.hero-h .l > span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.15 });
+      gsap.from('.hero-side > *', { autoAlpha: 0, y: 14, duration: 0.7, ease: 'power2.out', stagger: 0.1, delay: 0.55 });
 
-      gsap.from('.hero-h .l > span', { yPercent: 110, duration: 0.9, ease: 'power3.out', stagger: 0.12, delay: 0.25 });
-
-      // Tiles: wipe de cima pra baixo ao entrar na tela, em cascata.
-      gsap.set('.tile', { clipPath: 'inset(0 0 100% 0)' });
-      ScrollTrigger.batch('.tile', {
-        start: 'top 92%',
+      // Cada projeto: a demo abre com wipe de cima pra baixo e o texto sobe.
+      gsap.set('.proj-art', { clipPath: 'inset(0 0 100% 0)' });
+      gsap.set('.p-text > *', { autoAlpha: 0, y: 16 });
+      ScrollTrigger.batch('.proj-art', {
+        start: 'top 88%',
+        once: true,
+        onEnter: (lote) => gsap.to(lote, { clipPath: 'inset(0 0 0% 0)', duration: 0.95, ease: 'power3.out', stagger: 0.12 }),
+      });
+      ScrollTrigger.batch('.p-text', {
+        start: 'top 88%',
         once: true,
         onEnter: (lote) =>
-          gsap.to(lote, { clipPath: 'inset(0 0 0% 0)', duration: 0.95, ease: 'power3.out', stagger: 0.12 }),
+          lote.forEach((el) =>
+            gsap.to(el.children, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out', stagger: 0.08 })
+          ),
       });
     });
 
@@ -93,62 +106,92 @@ export default function Portfolio() {
   return (
     <div ref={raiz}>
       <header className="nav">
-        <a className="name" href="#" aria-label={NOME}>
-          {NOME.split('').map((ch, i) => (
-            <span key={i} aria-hidden="true">{ch}</span>
-          ))}
-        </a>
-        <a className="contact" href="mailto:ricmaemura@gmail.com">Contact</a>
-        <span className="icons">
-          <a href="https://github.com/maemura01" aria-label="GitHub"><IconGithub /></a>
-          <a href="https://www.linkedin.com/in/ricardo-maemura" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><IconLinkedin /></a>
-          <a href="mailto:ricmaemura@gmail.com" aria-label="E-mail"><IconMail /></a>
-        </span>
+        <div className="wrap">
+          <a className="brand" href="#" aria-label="Ricardo Maemura">
+            <i aria-hidden="true" />
+            Ricardo Maemura
+          </a>
+          <nav className="nav-links mono">
+            <a href="#projetos">Projetos</a>
+            <a href="#stack">Stack</a>
+            <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a className="btn btn-amber" href={EMAIL}>Contato ↗</a>
+          </nav>
+        </div>
       </header>
 
-      <section className="hero">
-        <h1 className="hero-h" aria-label="Do dado ao produto, em produção.">
-          <span className="l" aria-hidden="true"><span>Do dado ao produto,</span></span>
-          <span className="l" aria-hidden="true"><span>em produção.</span></span>
-        </h1>
-        <div className="hero-row">
-          <p className="intro">
-            Desenvolvedor full stack com base em dados. Construo painéis, automações e integrações que cerca de
-            20 pessoas usam todos os dias. Todas as demos abaixo usam dados fictícios.
-          </p>
-          <p className="hero-stack">SQL · PostgreSQL · Next.js · React · Supabase · Python · Automação</p>
-        </div>
-      </section>
+      <main>
+        <section className="wrap hero">
+          <h1 className="hero-h" aria-label="Do dado ao produto, em produção.">
+            <span className="l" aria-hidden="true"><span>Do dado ao produto,</span></span>
+            <span className="l" aria-hidden="true"><span>em <mark>produção</mark>.</span></span>
+          </h1>
+          <div className="hero-side">
+            <p>
+              Desenvolvedor full stack com base em dados. Construo painéis, automações e integrações que
+              cerca de 20 pessoas usam todos os dias.
+            </p>
+            <div className="hero-btns">
+              <a className="btn btn-amber" href="#projetos">Ver projetos ↓</a>
+              <a className="btn btn-ghost" href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            </div>
+            <p className="hero-meta mono">Todas as demos usam dados fictícios</p>
+          </div>
+        </section>
 
-      <main className="grid">
-        {PROJETOS.map((p) => {
-          const conteudo = (
-            <>
-              {p.arte ?? (
-                <div className="tile-art ph" style={{ background: p.cor, color: p.texto, aspectRatio: '4 / 5' }}>
-                  <div>
-                    <h3>{p.titulo}</h3>
-                    <p>Em construção</p>
-                  </div>
+        <div className="ruler" aria-hidden="true">
+          <span className="rl">jan 2025</span>
+          <i style={{ left: '18%' }} />
+          <i style={{ left: '41%' }} />
+          <i style={{ left: '67%' }} />
+          <i style={{ left: '88%' }} />
+          <span className="rr">hoje</span>
+        </div>
+
+        <section className="wrap" id="projetos">
+          <div className="sec-h mono"><span>Projetos selecionados</span><span>{String(PROJETOS.length).padStart(2, '0')}</span></div>
+          {PROJETOS.map((p, i) => (
+            <article className={`proj${p.wide ? ' wide' : ''}`} key={p.id}>
+              <div className="p-text">
+                <span className="p-idx mono">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="p-title">{p.titulo}</h3>
+                <p className="p-desc">{p.desc}</p>
+                <div className="tags">
+                  {p.tags.map((t) => (
+                    <span className="pill" key={t}>{t}</span>
+                  ))}
                 </div>
-              )}
-              <div className="tile-cap">
-                <b>{p.titulo}</b>
-                <span>{p.stack}</span>
+                {p.href ? (
+                  <a className="p-link mono" href={p.href} target="_blank" rel="noopener noreferrer">{p.link}</a>
+                ) : (
+                  <p className="p-note mono">{p.nota}</p>
+                )}
               </div>
-            </>
-          );
-          return p.href ? (
-            <a className={`tile${p.wide ? ' wide' : ''}`} key={p.id} href={p.href} target="_blank" rel="noopener noreferrer">{conteudo}</a>
-          ) : (
-            <div className={`tile${p.wide ? ' wide' : ''}`} key={p.id}>{conteudo}</div>
-          );
-        })}
+              <div className="proj-art">{p.arte}</div>
+            </article>
+          ))}
+        </section>
+
+        <section className="wrap stack" id="stack">
+          <h2>Do banco de dados à interface.</h2>
+          <div className="stack-list">
+            {STACK.map(([titulo, texto]) => (
+              <div className="li" key={titulo}>
+                <b>{titulo}</b>
+                <p>{texto}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </main>
 
-      <footer className="footer">
+      <footer className="wrap footer mono">
         <span>©Ricardo Maemura 2026</span>
-        <span>Obrigado por passar por aqui</span>
+        <span className="links">
+          <a href={GITHUB} target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href={LINKEDIN} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href={EMAIL}>ricmaemura@gmail.com</a>
+        </span>
       </footer>
     </div>
   );
