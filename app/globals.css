@@ -537,3 +537,5 @@ button.btn-amber { border: 0; cursor: pointer; }
 .contato { width: 450px; }
 .ct-link { grid-template-columns: 74px minmax(0, 1fr) auto; }
 .ct-val { font-size: 15px; overflow-wrap: normal; white-space: nowrap; }
+.sobre-h .foto { max-width: 240px; }
+@media (max-width: 560px) { .sobre-h .foto { max-width: 200px; } }
