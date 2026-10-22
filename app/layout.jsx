@@ -16,6 +16,8 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
+export const viewport = { themeColor: "#121211", colorScheme: "dark" };
+
 export const metadata = {
   title: 'Ricardo Maemura — Desenvolvedor Full Stack',
   description:

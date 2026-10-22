@@ -1,12 +1,13 @@
 /* Tema "papel e âmbar": creme quente, tinta, linhas de 1px, raio de 2px, sem sombras */
 :root {
-  --page-cream: #fffef2;
-  --ink: #191918;
-  --rule: #000000;
-  --stone: #75756f;
-  --linen: #edece0;
+  --page-cream: #121211;
+  --ink: #fffef2;
+  --rule: rgba(255, 254, 242, 0.28);
+  --stone: #a1a199;
+  --linen: #232321;
   --ash: #bab9b0;
   --amber: #fcaa2d;
+  color-scheme: dark;
 
   --font-sans: var(--font-sans-src), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-mono-src), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -39,15 +40,15 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 700px) { .nav-links a:not(.btn) { display: none; } }
 
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 2px; font-family: var(--font-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; line-height: 1.2; }
-.btn-amber { background: var(--amber); color: var(--ink); }
-.btn-ghost { background: transparent; border: 1px solid var(--rule); color: var(--ink); }
+.btn-amber { background: var(--amber); color: #191918; }
+.btn-ghost { background: transparent; border: 1px solid rgba(255, 254, 242, 0.6); color: var(--ink); }
 
 /* ---------- Hero ---------- */
 .hero { display: grid; grid-template-columns: 3fr 2fr; gap: 56px; align-items: end; padding: 80px 0 64px; }
 .hero-h { font-weight: 400; font-size: clamp(44px, 5.6vw, 72px); line-height: 1.04; letter-spacing: -0.05em; }
 .hero-h .l { display: block; overflow: hidden; padding-bottom: .1em; margin-bottom: -.1em; }
 .hero-h .l > span { display: inline-block; }
-.hero-h mark { background: linear-gradient(transparent 64%, var(--amber) 64%); color: inherit; padding: 0 .06em; }
+.hero-h mark { color: var(--amber); background: none; padding: 0 .02em; }
 .hero-side p { font-size: 18px; max-width: 40ch; }
 .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
 .hero-meta { margin-top: 22px; color: var(--stone); line-height: 1.6; }
@@ -249,7 +250,8 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .cd-caret { animation: none; } }
 
 /* ---------- Animações e Sobre mim ---------- */
-.hero-h mark { --mk: 1; background: linear-gradient(var(--amber), var(--amber)) left 92% / calc(var(--mk) * 100%) 36% no-repeat; }
+.hero-h mark { --mk: 1; color: var(--amber); background: linear-gradient(var(--amber), var(--amber)) left 98% / calc(var(--mk) * 100%) 4px no-repeat; }
+::selection { background: var(--amber); color: #191918; }
 .nav { position: sticky; }
 .progress { position: absolute; left: 0; bottom: -1px; width: 100%; height: 2px; background: var(--amber); transform: scaleX(0); transform-origin: left; display: block; }
 .p-link, .btn { transition: border-color .2s ease; }
