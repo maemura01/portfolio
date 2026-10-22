@@ -11,11 +11,10 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 
 /**
  * Camada de movimento da página inteira: rolagem suave, revelação de textos,
- * parallax, faixa reativa à rolagem, cursor, brilho e botões magnéticos.
+ * parallax, faixa reativa à rolagem, brilho de fundo e botões magnéticos.
  * Tudo só roda com movimento permitido; sem isso a página fica estática.
  */
 export default function MotionLayer() {
-  const cursor = useRef(null);
   const brilho = useRef(null);
 
   useEffect(() => {
@@ -119,44 +118,23 @@ export default function MotionLayer() {
       gsap.fromTo('.foto', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.1, ease: 'power3.inOut', scrollTrigger: { trigger: '.foto', start: 'top 88%', once: true } });
       gsap.fromTo('.foto img', { yPercent: -7, scale: 1.14 }, { yPercent: 7, scale: 1.14, ease: 'none', scrollTrigger: { trigger: '.foto', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-      // ---------- Só com mouse: cursor, brilho e botões magnéticos ----------
+      // ---------- Só com mouse: brilho de fundo e botões magnéticos ----------
       if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-        const c = cursor.current;
-        const interno = c.firstElementChild;
-        const rotulo = interno.firstElementChild;
-        gsap.set(interno, { xPercent: -50, yPercent: -50 });
-        const cx = gsap.quickTo(c, 'x', { duration: 0.35, ease: 'power3.out' });
-        const cy = gsap.quickTo(c, 'y', { duration: 0.35, ease: 'power3.out' });
         const b = brilho.current;
-        gsap.set(b, { xPercent: -50, yPercent: -50 });
+        gsap.set(b, { xPercent: -50, yPercent: -50, autoAlpha: 0 });
         const bx = gsap.quickTo(b, 'x', { duration: 1.4, ease: 'power3.out' });
         const by = gsap.quickTo(b, 'y', { duration: 1.4, ease: 'power3.out' });
-        gsap.set([c, b], { autoAlpha: 0 });
 
         let visivel = false;
         const mover = (e) => {
-          if (!visivel) { visivel = true; gsap.to([c, b], { autoAlpha: 1, duration: 0.4 }); }
-          cx(e.clientX); cy(e.clientY); bx(e.clientX); by(e.clientY);
+          if (!visivel) { visivel = true; gsap.to(b, { autoAlpha: 1, duration: 0.4 }); }
+          bx(e.clientX); by(e.clientY);
         };
-        const estado = (tam, txt, fundo = true) => {
-          rotulo.textContent = txt;
-          gsap.to(interno, { width: tam, height: tam, duration: 0.35, ease: 'power3.out', backgroundColor: fundo ? '#fcaa2d' : 'rgba(252,170,45,0)', borderColor: '#fcaa2d' });
-        };
-        const sobre = (e) => {
-          const t = e.target;
-          if (t.closest?.('.modal')) return estado(10, '');
-          if (t.closest?.('.card')) return estado(92, 'Abrir');
-          if (t.closest?.('.car-viewport')) return estado(92, 'Arraste');
-          if (t.closest?.('a, button, textarea, input')) return estado(36, '', false);
-          estado(10, '');
-        };
-        const saiu = () => { visivel = false; gsap.to([c, b], { autoAlpha: 0, duration: 0.3 }); };
+        const saiu = () => { visivel = false; gsap.to(b, { autoAlpha: 0, duration: 0.3 }); };
         window.addEventListener('pointermove', mover);
-        window.addEventListener('pointerover', sobre);
         document.documentElement.addEventListener('pointerleave', saiu);
         limpar.push(() => {
           window.removeEventListener('pointermove', mover);
-          window.removeEventListener('pointerover', sobre);
           document.documentElement.removeEventListener('pointerleave', saiu);
         });
 
@@ -189,9 +167,6 @@ export default function MotionLayer() {
   return (
     <>
       <div className="glow" ref={brilho} aria-hidden="true" />
-      <div className="cursor" ref={cursor} aria-hidden="true">
-        <div className="cursor-in"><span /></div>
-      </div>
     </>
   );
 }

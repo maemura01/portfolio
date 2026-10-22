@@ -499,15 +499,12 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 
 .glow { position: fixed; left: 0; top: 0; width: 720px; height: 720px; border-radius: 50%; pointer-events: none; z-index: -1; background: radial-gradient(circle, rgba(252, 170, 45, .11), rgba(252, 170, 45, 0) 62%); }
-.cursor { position: fixed; left: 0; top: 0; z-index: 300; pointer-events: none; }
-.cursor-in { position: absolute; left: 0; top: 0; width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid #fcaa2d; background: #fcaa2d; display: grid; place-items: center; overflow: hidden; }
-.cursor-in span { font-family: var(--font-mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: #191918; white-space: nowrap; }
 
 .foto { will-change: clip-path; }
 .foto img { will-change: transform; }
 .marquee-track { will-change: transform; }
 .hero-h, .hero-side { will-change: transform; }
-@media (hover: none), (pointer: coarse) { .cursor, .glow { display: none; } }
+@media (hover: none), (pointer: coarse) { .glow { display: none; } }
 
 /* ---------- Painel de contato ---------- */
 button.btn-amber { border: 0; cursor: pointer; }
@@ -587,3 +584,6 @@ html[data-motion="off"] .brand, html[data-motion="off"] .brand i { animation: no
 .mov-acoes .btn { cursor: pointer; }
 .mov-acoes .btn-amber { border: 0; }
 @media (max-width: 560px) { .mov-aviso { left: 12px; right: 12px; bottom: 12px; max-width: none; } }
+/* os cartões da agenda ficam dentro da grade: o z-index do arrastar não cobre o painel do cliente */
+.ad-grid { isolation: isolate; z-index: 0; }
+.ad-card { z-index: 30; }
