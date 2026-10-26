@@ -3,9 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { movimentoLigado } from './motion';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { tocarNaTela } from './useLoop';
 
 // Tudo aqui é fictício: nomes inventados, números gerados à mão.
 const ABAS = ['Visão geral', 'Gerentes', 'Parceiros'];
@@ -101,15 +99,10 @@ export default function ParceirosMock() {
         .to({}, { duration: 0.3 }, 3 * T);
 
       // Só roda quando o tile está na tela.
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top 95%',
-        end: 'bottom 5%',
-        onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
-      });
+      const parar = tocarNaTela(el, tl);
 
       return () => {
-        st.kill();
+        parar();
         tl.kill();
       };
     });

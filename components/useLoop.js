@@ -3,9 +3,18 @@
 import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { movimentoLigado } from './motion';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+/**
+ * Toca a timeline só enquanto o elemento está visível e pausa fora da tela.
+ * Usa IntersectionObserver (e não ScrollTrigger) porque dentro do modal quem rola
+ * é o próprio modal, não a janela: no celular a demo fica abaixo do texto e o
+ * ScrollTrigger nunca percebia que ela entrou na tela.
+ */
+export function tocarNaTela(el, tl) {
+  const io = new IntersectionObserver(([e]) => (e.isIntersecting ? tl.play() : tl.pause()));
+  io.observe(el);
+  return () => io.disconnect();
+}
 
 /**
  * Loop de animação de um tile: roda só enquanto ele está na tela.
@@ -24,14 +33,9 @@ export function useLoop(ref, build, final) {
     if (movimentoLigado()) mm.add('all', () => {
       const tl = gsap.timeline({ repeat: -1, paused: true });
       build(tl, el);
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top 95%',
-        end: 'bottom 5%',
-        onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
-      });
+      const parar = tocarNaTela(el, tl);
       return () => {
-        st.kill();
+        parar();
         tl.kill();
       };
     });

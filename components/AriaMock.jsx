@@ -3,9 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { movimentoLigado } from './motion';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { tocarNaTela } from './useLoop';
 
 const DIAS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'];
 const HORAS = ['09:00', '10:00', '14:00', '15:00'];
@@ -86,15 +84,10 @@ export default function AriaMock() {
         .to(chips, { opacity: 0, scale: 0.8, duration: 0.35, stagger: 0.05, ease: 'power1.in' }, '+=1.8');
 
       // Só roda quando o tile está na tela.
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top 95%',
-        end: 'bottom 5%',
-        onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
-      });
+      const parar = tocarNaTela(el, tl);
 
       return () => {
-        st.kill();
+        parar();
         tl.kill();
       };
     });
